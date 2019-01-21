@@ -4,13 +4,14 @@ class App {
 
         // elements
         this.DOM = {el:document.querySelector('body')};
-        this.DOM.app = this.DOM.el.querySelectorAll('.app');
+        this.DOM.app = this.DOM.el.querySelector('.app');
         this.DOM.image = this.DOM.el.querySelectorAll('.image');
         this.DOM.imageHolder = this.DOM.el.querySelectorAll('.image__holder');
         this.DOM.logo = this.DOM.el.querySelectorAll('.logo');
         this.DOM.controls = this.DOM.el.querySelectorAll('.controls');
         this.DOM.info = this.DOM.el.querySelector('.info');
         this.DOM.about = this.DOM.el.querySelector('.about');
+        this.DOM.loader = this.DOM.el.querySelector('.loader');
 
         // settings
         this.direction = 'next';
@@ -33,8 +34,39 @@ class App {
             'robert-lukeman-150146-unsplash.jpg',
         ];
 
-        //start animations
-        this.startStage();
+        //loading
+        this.buildLoading();
+        imagesLoaded( '.loader div', () => {
+            this.removeLoading()
+            this.startStage();
+        });
+
+
+    }
+
+    buildLoading(){
+        let count = 0;
+
+        //create holder
+        const loadElement = document.createElement('div');
+        loadElement.classList.add('loader');
+        this.DOM.app.appendChild(loadElement);
+        const loader = this.DOM.app.querySelector('.loader');
+
+        this.photos.forEach((photo) => {
+                count ++; 
+
+                //create element
+                const newElement = document.createElement('div');
+                newElement.style.backgroundImage = `url('./images/gallery/${photo}')`;
+                loader.appendChild(newElement);
+
+        });
+    }
+
+    removeLoading(){
+        const loader = this.DOM.app.querySelector('.loader');
+        loader.parentNode.removeChild(loader);
     }
 
 
