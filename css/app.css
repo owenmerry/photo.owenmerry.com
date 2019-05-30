@@ -68,11 +68,18 @@ body,html{
 .title h2{margin:0;padding:.3em .3em;}
 
 
+
+
 .controls{
     position: absolute;
-    bottom:1em;
-    left:1em;
+    bottom:50%;
     z-index:100;
+}
+.controls__left{
+    left:1em;
+}
+.controls__right{
+    right:1em;
 }
 .controls__button{
 width:4em;
@@ -96,11 +103,28 @@ transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     right:0;
 }
 .controls__button--next:hover{
-    left:.5em;
+    /*left:.5em;*/
 }
 .controls__button--prev:hover{
-    right:.5em;
+    /*right:.5em;*/
 }
+
+
+/* mobile styles */
+@media only screen and (max-width: 600px) {
+}
+
+
+.photo-count{
+    position: absolute;
+    bottom:10rem;
+    z-index:100;
+    right: 2rem;
+    text-align:right;
+    font-size:4.5em;
+}
+
+
 
 .logo{
     position: absolute;
@@ -131,11 +155,13 @@ transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     z-index:100;
     text-align:right;
 }
+
 .info ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
     font-size:1.4em;
+    letter-spacing: .2em;
 }
 .info li{
     display: inline-block;
@@ -144,10 +170,11 @@ transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     top:0;
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    text-transform: uppercase;
 }
 .info li:hover{
     color:#66a5b8;
-    top:.2em;
+    /*top:.2em;*/
 }
 
 .about{
@@ -160,8 +187,11 @@ transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     z-index:110;
     color:black;
 }
+
 .about .content{
     padding:2em;
+    height:100vh;
+    overflow-y: auto;
 }
 .about h2{
     font-size: 8em;
@@ -197,4 +227,15 @@ transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .about .close svg path{
     fill: black;
+}
+
+/* mobile styles */
+@media only screen and (max-width: 600px) {
+    .about{
+        width:90vw;
+        right:-90vw;
+    }
+    .about p{
+        width: inherit;
+    }
 }

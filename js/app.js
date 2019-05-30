@@ -12,13 +12,15 @@ class App {
         this.DOM.info = this.DOM.el.querySelector('.info');
         this.DOM.about = this.DOM.el.querySelector('.about');
         this.DOM.loader = this.DOM.el.querySelector('.loader');
+        this.DOM.counterCurrent = this.DOM.el.querySelector('.photo-count__current');
+        this.DOM.counterAll = this.DOM.el.querySelector('.photo-count__all');
 
         // settings
         this.direction = 'next';
         this.animationLock = false;
         this.config = {
             animation: {
-                speed: {fast: 0.3, medium: 0.5, slow: 0.7},
+                speed: {fast: 0.1, medium: 0.3, slow: 0.5},
                 ease: {power01: 'Power2.easeInOut', quint01: 'Quint.easeOut'}
             }
         };
@@ -36,10 +38,14 @@ class App {
 
         //loading
         this.buildLoading();
-        imagesLoaded( '.loader div', () => {
+        imagesLoaded( '.loader div',{ background: true }, () => {
             this.removeLoading()
             this.startStage();
-        });
+            console.log('images loaded');
+        }); 
+
+        //variables
+        this.isMobile = window.innerWidth < 600;
 
 
     }
@@ -74,6 +80,7 @@ class App {
         var tlIntro = new TimelineMax({onComplete: () => this.setAnimationUnlock(), repeat:0,ease: this.config.animation.ease.power01});
 
         this.setImage();
+        this.setCollectionCounter();
 
             tlIntro
             .from(this.DOM.image,this.config.animation.speed.slow,{
@@ -97,6 +104,7 @@ class App {
             this.setCurrentDown()
             this.setDirection({mode:'prev'});
             this.exitSlide();
+            this.setCollectionCounter();
             console.log(this.getCurrent());
         }
     }
@@ -106,6 +114,7 @@ class App {
             this.setCurrentUp()
             this.setDirection({mode:'next'});
             this.exitSlide();
+            this.setCollectionCounter();
             console.log(this.getCurrent());
         }
     }
@@ -119,7 +128,7 @@ class App {
         tl
         .to(this.DOM.image,this.config.animation.speed.slow,{
             autoAlpha: 0,
-        })
+        },.1)
         ;
     }
 
@@ -132,7 +141,7 @@ class App {
         tl
         .set(this.DOM.image,{
             autoAlpha: 1,
-        })
+        },.1)
         ;
     }
 
@@ -160,7 +169,7 @@ class App {
             right: '0em',
         },0)
         .to(this.DOM.about,this.config.animation.speed.fast,{
-            right: '-50vw',
+            right: this.isMobile ? '-90vw' : '-50vw',
         },0)
         ;
     }
@@ -205,6 +214,10 @@ getCurrent(){
     return this.current;
 }
 
+getCurrent(){
+    return this.current;
+}
+
 setCurrentUp(){
     return this.getCurrent() === this.photos.length - 1 ? this.current = 0 : this.current++;
 }
@@ -219,6 +232,15 @@ setImage(){
 
 setImageHolder(){
     this.DOM.imageHolder[0].style.backgroundImage = `url('./images/gallery/${this.photos[this.getCurrent()]}')`;
+}
+
+getCollectionTotal(){
+    return this.photos.length;
+}
+
+setCollectionCounter(){
+    this.DOM.counterCurrent.innerHTML = this.getCurrent() + 1;
+    this.DOM.counterAll.innerHTML = this.getCollectionTotal();
 }
 
     
